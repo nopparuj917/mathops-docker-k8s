@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calculate-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: "nginx"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: localhost  # Replace with your actual hostname
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service  # Replace with your frontend service name
+                port:
+                  number: 80
+          - path: /notification
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service  # Replace with your notification service name
+                port:
+                  number: 8000
+          - path: /calculate
+            pathType: Prefix
+            backend:
+              service:
+                name: calculate-service  # Replace with your calculate service name
+                port:
+                  number: 8001
+          - path: /cache
+            pathType: Prefix
+            backend:
+              service:
+                name: cache-service  # Replace with your cache service name
+                port:
+                  number: 8002

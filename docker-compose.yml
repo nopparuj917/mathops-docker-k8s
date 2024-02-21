@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  frontend:
+    image: charnkij2035/sds-k8s-calculator:server-frontend-2
+    ports:
+      - "8084:80"
+    networks:
+      - calculator
+  notification:
+    image: charnkij2035/sds-k8s-calculator:server-notification-2
+    ports:
+      - "8000:8000"
+    networks:
+      - calculator
+  calculate:
+    image: charnkij2035/sds-k8s-calculator:server-calculate-2
+    ports:
+      - "8001:8001"
+    networks:
+      - calculator
+  cache:
+    image: charnkij2035/sds-k8s-calculator:server-cache-2
+    ports:
+      - "8002:8002"
+    networks:
+      - calculator
+
+networks:
+  calculator:
+    driver: bridge

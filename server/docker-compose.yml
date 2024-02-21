@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    ports:
+      - "8084:80"
+    networks:
+      - calculator
+  notification:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - calculator
+  calculate:
+    build:
+      context: ./calculate-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    networks:
+      - calculator
+  cache:
+    build:
+      context: ./cache-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    networks:
+      - calculator
+
+networks:
+  calculator:
+    driver: bridge

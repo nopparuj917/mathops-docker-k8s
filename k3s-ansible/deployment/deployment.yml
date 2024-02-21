@@ -1,0 +1,143 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  clusterIP: 10.43.189.177
+  selector:
+    app: frontend
+  ports:
+    - nodePort: 32636
+      protocol: TCP
+      port: 8084
+      targetPort: 80
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: charnkij2035/sds-k8s-calculator:server-frontend-12-servicename-aarch64
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification
+spec:
+  clusterIP: 10.43.126.11
+  selector:
+    app: notification
+  ports:
+    - nodePort: 31452
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      containers:
+        - name: notification
+          image: charnkij2035/sds-k8s-calculator:server-notification-12-servicename-aarch64
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculate
+spec:
+  clusterIP: 10.43.121.17
+  selector:
+    app: calculate
+  ports:
+    - nodePort: 31749
+      protocol: TCP
+      port: 8001
+      targetPort: 8001
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculate
+  template:
+    metadata:
+      labels:
+        app: calculate
+    spec:
+      containers:
+        - name: calculate
+          image: charnkij2035/sds-k8s-calculator:server-calculate-12-servicename-aarch64
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cache
+spec:
+  clusterIP: 10.43.164.66
+  selector:
+    app: cache
+  ports:
+    - nodePort: 31322
+      protocol: TCP
+      port: 8002
+      targetPort: 8002
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cache
+  template:
+    metadata:
+      labels:
+        app: cache
+    spec:
+      containers:
+        - name: cache
+          image: charnkij2035/sds-k8s-calculator:server-cache-12-servicename-aarch64
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8002
